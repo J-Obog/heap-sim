@@ -1,10 +1,16 @@
 #pragma once
 #include <cstdint>
 
+struct Word {
+    uint8_t f : 2; //2 bits allocated for flags
+    uint8_t d : 8; //8 bits allocated for data
+}; 
+
 class HeapMem {
     private:
-        uint16_t* _mem; 
+        Word* _mem; 
         int _size;
+        int find(int size); 
 
     public:
         HeapMem(); 
