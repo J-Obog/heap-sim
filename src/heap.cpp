@@ -15,26 +15,34 @@ HeapMem::~HeapMem() {
     delete _mem; 
 } 
 
-int HeapMem::find(int size) {
-    int run = 0;
+int HeapMem::mem_reserve(int offset, int size) {
+    int head = offset - (size - 1); 
 
-    for(int i = 0; i < _size; i++) {
-        if(run == size) {
-            return i - (size - 1); 
-        }
-        run = (_mem[i].f == 0) ? run + 1 : 0; 
+    _mem[head].status = 1; 
+    _mem[head].data = 0; 
+
+    for(int i = (head + 1); i < offset; i++) {
+        _mem[i].status = 2; 
+        _mem[i].data = 0; 
     }
 
-    return -1;  
+    _mem[offset].status = 3; 
+    _mem[offset].data = 0; 
+
+    return head; 
 }
 
 int HeapMem::alloc(int size) {
-    int ptr = find(size); 
-    if(ptr == -1) {
-        return -12345; //bad memory allocation
-    } else {
-        return 1; 
+    int run = 0;
+    
+    for(int i = 0; i < _size; i++) {
+        if(run == size) {
+            return mem_reserve(i, size);  
+        }
+        run = (_mem[i].status == 0) ? run + 1 : 0; 
     }
+
+    return -1; 
 }
 
 int HeapMem::memget(int ptr) {

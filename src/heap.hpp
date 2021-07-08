@@ -2,15 +2,15 @@
 #include <cstdint>
 
 struct Word {
-    uint8_t f : 2; //2 bits allocated for flags
-    uint8_t d : 8; //8 bits allocated for data
+    uint8_t status : 2; //2 bits allocated for flags
+    uint8_t data : 8; //8 bits allocated for data
 }; 
 
 class HeapMem {
     private:
         Word* _mem; 
         int _size;
-        int find(int size); 
+        int mem_reserve(int offset, int size); 
 
     public:
         HeapMem(); 
