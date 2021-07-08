@@ -1,20 +1,17 @@
 #pragma once
 #include <cstdint>
 
-//pointer class
-class h_ptr; 
+class HeapMem {
+    private:
+        uint16_t* _mem; 
+        int _size;
 
-
-//heap memory class
-class heap {
-private:
-    uint8_t* _mem; 
-    int _size; 
-
-public:
-    heap(); 
-    heap(int size); 
-    ~heap(); 
-    h_ptr allocate(); 
-    void deallocate(h_ptr heapPtr); 
-};
+    public:
+        HeapMem(); 
+        HeapMem(int size);
+        ~HeapMem(); 
+        int alloc(int size);  
+        int memget(int ptr); 
+        void dealloc(int ptr);
+        void memset(int ptr, int val);  
+}; 
