@@ -2,7 +2,7 @@
 #include <cstdint>
 
 struct Word {
-    uint8_t status : 2; //2 bits allocated for flags
+    uint8_t status : 2; //2 bits allocated for block status
     uint8_t data : 8; //8 bits allocated for data
 }; 
 

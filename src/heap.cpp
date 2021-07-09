@@ -62,12 +62,13 @@ void HeapMem::dealloc(int ptr) {
     if(!_ptr_valid(tmp)) {
         return; 
     } 
-
-    do {
-        _mem[tmp] = {0}; 
-        tmp++; 
-    } while(_mem[tmp].status != 3); 
     
+    while(_mem[tmp].status != 3) {
+        _mem[tmp] = {0};
+        tmp++; 
+    }
+    _mem[tmp] = {0}; 
+
 }
 
 int HeapMem::memget(int ptr) {
