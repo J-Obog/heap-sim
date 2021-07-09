@@ -3,7 +3,8 @@
 int main() {
     HeapMem heap(16); 
     int ptr = heap.alloc(4); 
-    heap.dealloc(ptr); 
+    heap.memset(ptr, 322); 
+    //heap.dealloc(ptr); 
 
     heap.dump(); 
 

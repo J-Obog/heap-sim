@@ -39,7 +39,7 @@ int HeapMem::_mem_reserve(int offset, int size) {
     }
 
     _mem[offset].status = 3; 
-
+    
     return head; 
 }
 
@@ -47,10 +47,11 @@ int HeapMem::alloc(int size) {
     int run = 0;
     
     for(int i = 0; i < _size; i++) {
+        run = (_mem[i].status == 0) ? run + 1 : 0;
+
         if(run == size) {
             return _mem_reserve(i, size);  
-        }
-        run = (_mem[i].status == 0) ? run + 1 : 0; 
+        } 
     }
 
     return -1; 
@@ -67,6 +68,7 @@ void HeapMem::dealloc(int ptr) {
         _mem[tmp] = {0};
         tmp++; 
     }
+
     _mem[tmp] = {0}; 
 
 }
@@ -76,6 +78,22 @@ int HeapMem::memget(int ptr) {
 }
 
 void HeapMem::memset(int ptr, int val) {
+    int tmp = ptr; 
+    int radix = 1; 
+
+    if(!_ptr_valid(tmp)) {
+        return; 
+    } 
+
+    while(_mem[tmp].status != 3) {
+        int bf = (((1 << 8) - 1) & (val >> (radix - 1))); 
+        _mem[tmp].data = (uint8_t)bf;  
+        tmp++; 
+        radix += 8; 
+    }
+
+    int bf = (((1 << 8) - 1) & (val >> (radix - 1))); 
+    _mem[tmp].data = (uint8_t)bf; 
 
 }
 
