@@ -21,4 +21,5 @@ class HeapMem {
         int memget(int ptr); 
         void dealloc(int ptr);
         void memset(int ptr, int val);  
+        void dump(); 
 }; 

@@ -1,6 +1,9 @@
-#include <iostream>
+#include "heap.hpp" 
 
 int main() {
-    std::cout << "Hello, World" << std::endl; 
+    HeapMem heap(256); 
+    
+    heap.dump(); 
+
     return 0; 
 }
