@@ -10,7 +10,8 @@ class HeapMem {
     private:
         Word* _mem; 
         int _size;
-        int mem_reserve(int offset, int size); 
+        int _mem_reserve(int offset, int size); 
+        bool _ptr_valid(int ptr); 
 
     public:
         HeapMem(); 

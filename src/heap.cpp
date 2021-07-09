@@ -15,19 +15,20 @@ HeapMem::~HeapMem() {
     delete _mem; 
 } 
 
-int HeapMem::mem_reserve(int offset, int size) {
+bool HeapMem::_ptr_valid(int ptr) {
+    return (ptr >= 0 || ptr <= _size) && (_mem[ptr].status == 1); 
+}
+
+int HeapMem::_mem_reserve(int offset, int size) {
     int head = offset - (size - 1); 
 
     _mem[head].status = 1; 
-    _mem[head].data = 0; 
-
+    
     for(int i = (head + 1); i < offset; i++) {
         _mem[i].status = 2; 
-        _mem[i].data = 0; 
     }
 
     _mem[offset].status = 3; 
-    _mem[offset].data = 0; 
 
     return head; 
 }
@@ -37,7 +38,7 @@ int HeapMem::alloc(int size) {
     
     for(int i = 0; i < _size; i++) {
         if(run == size) {
-            return mem_reserve(i, size);  
+            return _mem_reserve(i, size);  
         }
         run = (_mem[i].status == 0) ? run + 1 : 0; 
     }
@@ -45,11 +46,21 @@ int HeapMem::alloc(int size) {
     return -1; 
 }
 
-int HeapMem::memget(int ptr) {
+void HeapMem::dealloc(int ptr) {
+    int tmp = ptr; 
 
+    if(!_ptr_valid(tmp)) {
+        return; 
+    } 
+
+    do {
+        _mem[tmp] = {0}; 
+        tmp++; 
+    } while(_mem[tmp].status != 3); 
+    
 }
 
-void HeapMem::dealloc(int ptr) {
+int HeapMem::memget(int ptr) {
 
 }
 
