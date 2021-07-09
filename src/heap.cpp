@@ -99,9 +99,9 @@ void HeapMem::memset(int ptr, int val) {
 
 void HeapMem::dump() {
     for(int i = 0; i < _size; i += 16) {    
-        std::cout << std::setfill('0') << std::setw(4) << std::hex << std::uppercase << i;
+        std::cout << std::setfill('0') << std::setw(4) << std::hex << std::uppercase << i << "  ";
         for(int j = 0; j < 16; j++) {
-            std::cout << '\t' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << (int)_mem[i+j].data;
+            std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << (int)_mem[i+j].data;
         }
         std::cout << '\n'; 
      }
