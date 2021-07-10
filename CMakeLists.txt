@@ -1,14 +1,28 @@
 cmake_minimum_required(VERSION 3.10)
-project(Heapy VERSION 1.0 LANGUAGES CXX)
+project(heapsim VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-option(BUILD_TEST_TARGETS "Set to true for debugging purposes")
+option(BuildTests "Turn on for debugging purposes")
 
-add_subdirectory(src)
+add_library(heap_lib
+    src/heap.cpp 
+    src/heap.hpp
+)
 
-if(BUILD_TEST_TARGETS)
-    enable_testing()
-    add_subdirectory(tests)
+target_include_directories(heap
+  PUBLIC
+  src/
+)
+
+add_executable(${PROJECT_NAME} example.cpp)
+target_link_libraries(${PROJECT_NAME} heap_lib)
+
+if(BuildTests)
+    add_executable(tests 
+        tests/test.cpp 
+        tests/catch.hpp
+    )
+    target_link_libraries(tests heap_lib)
 endif()
