@@ -3,74 +3,52 @@
 #include <iomanip>
 
 HeapMem::HeapMem() {
-    const int defaultSize = 1024; 
-    _mem = new Word[defaultSize]; 
-    _size = defaultSize; 
-
-    for(int i = 0; i < _size; i++) {
-        _mem[i] = {0}; 
-    }
+    const int default_size = 1024; 
+    _mem = new Word[default_size]{{0,0,0,0}}; 
+    _size = default_size; 
 }
 
 HeapMem::HeapMem(int size) {
-    _mem = new Word[size]; 
+    _mem = new Word[size]{{0,0,0,0}}; 
     _size = size;
-    
-    for(int i = 0; i < _size; i++) {
-        _mem[i] = {0}; 
-    }
 }
 
 HeapMem::~HeapMem() {
     delete _mem; 
 } 
 
-bool HeapMem::_ptr_valid(int ptr) {
-    return (ptr >= 0 || ptr <= _size) && (_mem[ptr].status == 1); 
-}
-
-int HeapMem::_mem_reserve(int offset, int size) {
-    int head = offset - (size - 1); 
-
-    _mem[head].status = 1; 
-    
-    for(int i = (head + 1); i < offset; i++) {
-        _mem[i].status = 2; 
+void HeapMem::_mem_reserve(int offset, int size) {
+    for(int i = offset; i < offset + size; i++) {
+        _mem[i].alloc = 1; 
+        _mem[i].head = (i == offset) ? 1 : 0; 
+        _mem[i].next = (i != offset + (size - 1)) ? 1 : 0; 
     }
-
-    _mem[offset].status = 3; 
-
-    return head; 
 }
 
 int HeapMem::alloc(int size) {
     int run = 0;
-    
-    for(int i = 0; i < _size; i++) {
-        run = (_mem[i].status == 0) ? run + 1 : 0;
 
+    for(int i = 0; i < _size; i++) {
         if(run == size) {
-            return _mem_reserve(i, size);  
-        } 
+            int ptr = i - size; 
+            _mem_reserve(ptr, size);
+            return ptr;
+        }
+        run = (!_mem[i].alloc) ? run + 1 : 0; 
     }
 
-    return -1; 
+    return -1;
 }
 
 void HeapMem::dealloc(int ptr) {
+    if(!_mem[ptr].head)
+        return; 
+
     int tmp = ptr; 
 
-    if(!_ptr_valid(tmp)) {
-        return; 
-    } 
-    
-    while(_mem[tmp].status != 3) {
-        _mem[tmp] = {0};
-        tmp++; 
-    }
-
-    _mem[tmp] = {0}; 
-
+    do {
+        _mem[tmp] = {0}; 
+    } while(_mem[tmp - 1].next != 0); 
 }
 
 int HeapMem::memget(int ptr) {
@@ -78,23 +56,7 @@ int HeapMem::memget(int ptr) {
 }
 
 void HeapMem::memset(int ptr, int val) {
-    int tmp = ptr; 
-    int radix = 1; 
-
-    if(!_ptr_valid(tmp)) {
-        return; 
-    } 
-
-    while(_mem[tmp].status != 3) {
-        int bf = (((1 << 8) - 1) & (val >> (radix - 1))); 
-        _mem[tmp].data = (uint8_t)bf;  
-        tmp++; 
-        radix += 8; 
-    }
-
-    int bf = (((1 << 8) - 1) & (val >> (radix - 1))); 
-    _mem[tmp].data = (uint8_t)bf; 
-
+    
 }
 
 void HeapMem::dump() {

@@ -2,16 +2,17 @@
 #include <cstdint>
 
 struct Word {
-    uint8_t status : 2; //2 bits allocated for block status
-    uint8_t data : 8; //8 bits allocated for data
+    uint8_t head : 1; 
+    uint8_t alloc : 1; 
+    uint8_t next : 1; 
+    uint8_t data : 8;  
 }; 
 
 class HeapMem {
     private:
         Word* _mem; 
         int _size;
-        int _mem_reserve(int offset, int size); 
-        bool _ptr_valid(int ptr); 
+        void _mem_reserve(int offset, int size); 
 
     public:
         HeapMem(); 

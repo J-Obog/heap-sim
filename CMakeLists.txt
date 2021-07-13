@@ -11,9 +11,9 @@ add_library(heap_lib
     src/heap.hpp
 )
 
-target_include_directories(heap
+target_include_directories(heap_lib
   PUBLIC
-  src/
+  src
 )
 
 add_executable(${PROJECT_NAME} example.cpp)
