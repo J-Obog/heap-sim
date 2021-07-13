@@ -23,7 +23,7 @@ Key features of Heap-Sim:
 - hex dump that's colorized to show which blocks are allocated
 - allocate variable sizes of memory
 - deallocate memory (remember, you are your own garbage collector)
-- retrieve and modify allocated data (can set memory but can't get, yet ;))
+- retrieve and modify allocated data (can set memory but can't get, yet)
 
 This library provides the basic features that you get out of regular C++ pointers and like such, it is important that you remember to delete them when you are finished using them. We will go over how you can use declare and use pointers in your own application. 
 
