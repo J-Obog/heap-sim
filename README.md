@@ -3,7 +3,7 @@ A simple C++ library that simulates memory management on the heap that utilizes 
 
 ## Usage
 
-Compile all file located int the src/ directory and link it your local project.
+Compile all files located int the src/ directory and link it your local project.
 
 Make sure to include the main header: 
 
