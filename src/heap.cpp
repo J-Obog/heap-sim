@@ -84,7 +84,9 @@ void HeapMem::dump() {
         std::cout << std::setfill('0') << std::setw(4) << std::hex << std::uppercase << i << "  ";
         for(int j = 0; j < 16; j++) {
             //print memory
-            std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << (int)_mem[i+j].data;
+            int mapped = i+j; 
+            if(mapped < _size)
+                std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << (int)_mem[i+j].data;
         }
         std::cout << '\n'; 
      }
