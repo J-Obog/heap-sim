@@ -13,7 +13,7 @@ add_library(heap_lib
 
 target_include_directories(heap_lib
   PUBLIC
-  src
+  src/
 )
 
 add_executable(${PROJECT_NAME} example.cpp)

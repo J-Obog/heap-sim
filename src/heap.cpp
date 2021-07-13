@@ -4,13 +4,17 @@
 
 HeapMem::HeapMem() {
     const int default_size = 1024; 
-    _mem = new Word[default_size]{{0,0,0,0}}; 
+    _mem = new Word[default_size];
     _size = default_size; 
+    for(int i = 0; i < _size; i++) 
+        _mem[i] = {0};
 }
 
 HeapMem::HeapMem(int size) {
-    _mem = new Word[size]{{0,0,0,0}}; 
+    _mem = new Word[size]; 
     _size = size;
+    for(int i = 0; i < _size; i++) 
+        _mem[i] = {0};  
 }
 
 HeapMem::~HeapMem() {
@@ -48,6 +52,7 @@ void HeapMem::dealloc(int ptr) {
 
     do {
         _mem[tmp] = {0}; 
+        tmp++; 
     } while(_mem[tmp - 1].next != 0); 
 }
 
@@ -56,7 +61,17 @@ int HeapMem::memget(int ptr) {
 }
 
 void HeapMem::memset(int ptr, int val) {
-    
+    if(!_mem[ptr].head)
+        return; 
+
+    int tmp = ptr, radix = 1; 
+
+    do {
+        uint8_t nth_byte = (uint8_t)(((1 << 8) - 1) & (val >> (radix - 1)));
+        _mem[tmp].data = nth_byte; 
+        tmp++; 
+        radix += 8;  
+    } while(_mem[tmp - 1].next != 0);
 }
 
 void HeapMem::dump() {
