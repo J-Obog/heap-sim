@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
-#include "catch.hpp"
-#include "heap.hpp"
+#include <catch.hpp>
+#include <heap.hpp>
 
 //add relevant test cases
 

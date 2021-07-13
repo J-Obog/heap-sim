@@ -1,8 +1,8 @@
-#include "heap.hpp"
+#include <heap.hpp>
 #include <iostream>
 #include <iomanip>
 #define NOMINMAX
-#include "termcolor.hpp"
+#include <termcolor.hpp>
 
 HeapMem::HeapMem() {
     const int default_size = 1024; //set default memory size to 1 KB
