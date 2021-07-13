@@ -1,6 +1,8 @@
 #include "heap.hpp"
 #include <iostream>
 #include <iomanip>
+#define NOMINMAX
+#include "termcolor.hpp"
 
 HeapMem::HeapMem() {
     const int default_size = 1024; //set default memory size to 1 KB
@@ -81,12 +83,18 @@ void HeapMem::memset(int ptr, int val) {
 void HeapMem::dump() {
     for(int i = 0; i < _size; i += 16) {
         //print offset    
-        std::cout << std::setfill('0') << std::setw(4) << std::hex << std::uppercase << i << "  ";
+        std::cout << std::setfill('0') << std::setw(4) << std::hex << std::uppercase << termcolor::reset << i << "  ";
         for(int j = 0; j < 16; j++) {
             //print memory
             int mapped = i+j; 
-            if(mapped < _size)
-                std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << (int)_mem[i+j].data;
+            if(mapped < _size) {
+                if(_mem[mapped].alloc) {
+                    std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << termcolor::red << (int)_mem[mapped].data;
+                } else {
+                    std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << termcolor::green << (int)_mem[mapped].data;
+                }
+
+            }
         }
         std::cout << '\n'; 
      }

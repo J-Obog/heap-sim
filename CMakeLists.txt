@@ -9,6 +9,7 @@ option(BuildTests "Turn on for debugging purposes")
 add_library(heap_lib
     src/heap.cpp 
     src/heap.hpp
+    src/termcolor.hpp
 )
 
 target_include_directories(heap_lib
