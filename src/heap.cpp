@@ -70,13 +70,15 @@ void HeapMem::memset(int ptr, int val) {
     if(!_mem[ptr].head) //check if pointer is valid
         return; 
 
-    int tmp = ptr, radix = 1; //radix points to current base of val
+    int tmp = ptr, radix = 0; //radix points to current base of val
 
     do {
-        uint8_t nth_byte = (uint8_t)(((1 << 8) - 1) & (val >> (radix - 1))); //extract a nth byte from val and store in current word
+        int shift_fact = 8 * radix; 
+        int mask = (255 << (shift_fact)); 
+        uint8_t nth_byte = (uint8_t)((val & mask) >> shift_fact); //extract a nth byte from val and store in current word
         _mem[tmp].data = nth_byte; 
         tmp++; 
-        radix += 8; //get the start position of the next byte
+        radix++; //get the start position of the next byte
     } while(_mem[tmp - 1].next != 0); //halt if reached the end of the previously allocated block 
 }
 
