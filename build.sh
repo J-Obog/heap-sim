@@ -3,5 +3,5 @@
 rm -rf build
 mkdir build
 cd build
-cmake ..
+cmake -DBUILD_TESTS=ON ..
 cmake --build .

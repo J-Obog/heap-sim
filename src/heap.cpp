@@ -62,15 +62,30 @@ void HeapMem::dealloc(int ptr) {
     } while(_mem[tmp - 1].next != 0); //halt if reached the end of the previously allocated block
 }
 
-int HeapMem::memget(int ptr) { //will implement soon
-    return 0; 
+int HeapMem::memget(int ptr) {
+    if(!_mem[ptr].head) //check if pointer is valid
+        return 0x0; 
+
+    int tmp = ptr; 
+    int val = 0;
+    int radix = 0;
+
+    do {
+        int mask = (_mem[tmp].data << (8 * radix)); 
+        val &= mask; 
+        tmp++; 
+        radix++;
+    } while(_mem[tmp - 1].next != 0); //halt if reached the end of the previously allocated block 
+
+    return val; 
 }
 
 void HeapMem::memset(int ptr, int val) {
     if(!_mem[ptr].head) //check if pointer is valid
         return; 
 
-    int tmp = ptr, radix = 0; //radix points to current base of val
+    int tmp = ptr;
+    int radix = 0;
 
     do {
         int shift_fact = 8 * radix; 
@@ -78,7 +93,7 @@ void HeapMem::memset(int ptr, int val) {
         uint8_t nth_byte = (uint8_t)((val & mask) >> shift_fact); //extract a nth byte from val and store in current word
         _mem[tmp].data = nth_byte; 
         tmp++; 
-        radix++; //get the start position of the next byte
+        radix++;
     } while(_mem[tmp - 1].next != 0); //halt if reached the end of the previously allocated block 
 }
 

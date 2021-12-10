@@ -5,7 +5,7 @@ set(CMAKE_CXX_COMPILER g++)
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(TARGET_NAME heap_lib) 
-option(BuildTests "Turn on for debugging purposes")
+option(BUILD_TESTS "Turn on for debugging purposes")
 
 add_library(${TARGET_NAME}
     src/heap.cpp 
@@ -17,7 +17,7 @@ target_include_directories(${TARGET_NAME} PUBLIC src/)
 add_executable(demo demo.cpp)
 target_link_libraries(demo ${TARGET_NAME})
 
-if(BuildTests)
+if(BUILD_TESTS)
     add_executable(tests 
         tests/test.cpp 
         tests/catch.hpp
