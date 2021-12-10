@@ -93,10 +93,24 @@ void HeapMem::memset(int ptr, int val) {
 void HeapMem::dump() {
     for(int i = 0; i < _size; i += 16) {
         std::cout << std::setfill('0') << std::setw(4) << std::hex << std::uppercase << termcolor::reset << i << "  ";
+        int ahp = -1, bsz = 0; 
+
         for(int j = 0; j < 16; j++) {
             int mapped = i+j; 
+            if (_mem[mapped].H) {
+                ahp = mapped; 
+                bsz = _mem[mapped].S; 
+            }
+
             if(mapped < _size) {
-                std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << termcolor::bright_magenta << (int)_mem[mapped].D;
+                int d = (int)_mem[mapped].D; 
+                if(_mem[mapped].H) {
+                    std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << termcolor::bright_magenta << d;
+                } else if(mapped <= (ahp + bsz)) {
+                    std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << termcolor::red << d;
+                } else {
+                    std::cout << ' ' << std::setfill('0') << std::setw(2) << std::hex << std::uppercase << termcolor::green << d;
+                }
             }
         }
         std::cout << '\n'; 

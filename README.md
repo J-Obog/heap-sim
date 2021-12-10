@@ -26,9 +26,8 @@ Key features of Heap-Sim:
 - hex dump that's colorized to show which blocks are allocated
 - allocate variable sizes of memory
 - deallocate memory (remember, you are your own garbage collector)
-- retrieve and modify allocated data (can set memory but can't get, yet)
-
-This library provides the basic features that you get out of regular C++ pointers and like such, it is important that you remember to delete them when you are finished using them. We will go over how you can use declare and use pointers in your own application.
+- retrieve and modify allocated data
+- This library provides the basic features that you get out of regular C++ pointers and like such, it is important that you remember to delete them when you are finished using them. We will go over how you can use declare and use pointers in your own application.
 
 ---
 
@@ -90,7 +89,15 @@ The `memset` method stores a specified value into an address of memory. The firs
 
 ## Getting memory
 
-Coming soon!
+You can get a block of memory like so
+
+```cpp
+my_mem.memget(ptr);
+```
+
+The `memget` method retrieves the data stored in a specified block of memory. The argument passed in is the pointer to the head of that block of memory.
+
+**Note** The validity of the pointer is checked before the memory is actually set. If the pointer isn't valid, the program will throw a `bad_ptr` exception.
 
 ## Deleting pointers
 
