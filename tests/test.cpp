@@ -1,6 +1,6 @@
 #define CATCH_CONFIG_MAIN
 #include "catch.hpp"
-#include <heap.hpp>
+#include "heap.hpp"
 
 TEST_CASE("Set and get memory blocks") {
     HeapMem H(255);

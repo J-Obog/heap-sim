@@ -1,9 +1,9 @@
 #define NOMINMAX
 #define DEF_MEM_SIZE 1024
-#include <heap.hpp>
 #include <iostream>
 #include <iomanip>
-#include <termcolor.hpp>
+#include "heap.hpp"
+#include "termcolor.hpp"
 
 HeapMem::HeapMem() {
     _mem = new Word[DEF_MEM_SIZE];
@@ -31,7 +31,7 @@ int HeapMem::alloc(int size) {
 
     while(ptr < _size) {
         if(run == (size + 1)) {
-            int hp = ptr - size; 
+            int hp = ptr - (size + 1); 
             _mem[hp].S = size;
             _mem[hp].H = 1; 
             _allocated += size; 
