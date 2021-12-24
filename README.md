@@ -1,6 +1,6 @@
 # Heap-Sim
 
-A C++ program that simulates memory management on the heap that utilizes linear search to find the optimal space for new blocks to be allocated. Aimed to provide a high-level view of what's going on when you do pointer operations.
+C++ program aimed to provide a high-level view of what's going on under the hood when you do pointer operations.
 
 ## Usage
 
